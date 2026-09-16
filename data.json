@@ -23,16 +23,16 @@
     "bg2": "https://tansumbasketballfc.github.io/update/bg/pet2026.webp",
     "bg3": "https://tansumbasketballfc.github.io/update/bg/1_zpink2026.webp",
     "bg4": "https://tansumbasketballfc.github.io/update/bg/2_zpink2026.webp",
-    "bg5": "https://tansumbasketballfc.github.io/update/bg/3_zink2026.webp",
+    "bg5": "https://tansumbasketballfc.github.io/update/bg/3_zpink2026.webp",
     "bgList": [
-      "https://tansumbasketballfc.github.io/update/bg/pipo2026.webp", 
- "https://tansumbasketballfc.github.io/update/bg/pet2026.webp", 
- "https://tansumbasketballfc.github.io/update/bg/1_zpink2026.webp",
- "https://tansumbasketballfc.github.io/update/bg/2_zpink2026.webp",
- "https://tansumbasketballfc.github.io/update/bg/3_zink2026.webp"
-
+      "https://tansumbasketballfc.github.io/update/bg/pipo2026.webp",
+      "https://tansumbasketballfc.github.io/update/bg/pet2026.webp",
+      "https://tansumbasketballfc.github.io/update/bg/1_zpink2026.webp",
+      "https://tansumbasketballfc.github.io/update/bg/2_zpink2026.webp",
+      "https://tansumbasketballfc.github.io/update/bg/3_zpink2026.webp"
     ],
-    "themeColor": "#ff8a3d"
+    "themeColor": "#ff8a3d",
+    "promoBanner": "https://tansumbasketballfc.github.io/update/bin/zpinkpromo.webp"
   },
   "starterCards": [
     {
@@ -102,7 +102,7 @@
       "weight": "59",
       "position": "C",
       "rarity": "ยินดีต้อนรับ TBFC 26",
-      "bg": "https://tansumbasketballfc.github.io/update/cards/welcome2026.webp",
+      "bg": "https://tansumbasketballfc.github.io/update/card/welcome2026.webp",
       "cutout": "https://tansumbasketballfc.github.io/update/card/natthawat_junthawe_welcome2026.webp",
       "ovr": 60,
       "stats": {
@@ -198,18 +198,6 @@
       "form": "F"
     }
   ],
-
-  "videos": {
-    "intro": {
-      "url": "asset.funcgines.cloud/video/funcgines_intro2026.mp4",
-      "poster": ""
-    },
-    "promo": {
-      "url": "asset.funcgines.cloud/video/firsttimepromo2026.mp4",
-      "poster": ""
-    }
-  },
-
   "ui": {
     "appName": "TBFC 26",
     "needInternetTitle": "ต้องเชื่อมต่ออินเทอร์เน็ต",
@@ -232,16 +220,6 @@
         "type": "image"
       },
       {
-        "key": "FuncGines_Intro2026",
-        "url": "https://tansumbasketballfc.github.io/update/video/funcgines_intro2026.mp4",
-        "type": "video"
-      },
-      {
-        "key": "Firsttime_Promo2026",
-        "url": "https://tansumbasketballfc.github.io/update/video/firsttimepromo2026.mp4",
-        "type": "video"
-      },
-      {
         "key": "Card_Welcome2026",
         "url": "https://tansumbasketballfc.github.io/update/card/welcome2026.webp",
         "type": "image"
@@ -258,7 +236,7 @@
       },
       {
         "key": "Sitthichai_Homyen_Welcome2026",
-        "url": "https://tansumbasketballfc.github.io/update/card/Sitthichai_Homyen_Welcome2026.webp",
+        "url": "https://tansumbasketballfc.github.io/update/card/sitthichai_homyen_welcome2026.webp",
         "type": "image"
       }
     ],
