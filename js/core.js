@@ -1,6 +1,6 @@
 const TBFC_CFG={
 REMOTE_DATA_URL:"https://tansumbasketballfc.github.io/update/data.json",
-ASSET_CACHE_NAME:"tbfc26-ota-assets-update",
+ASSET_CACHE_NAME:"tbfc26-ota-assets-update-v2",
 ASSET_EXT_RE:/\.(png|webp|jpg|jpeg|gif|mp4|webm|ogg|mp3|wav)(\?.*)?$/i,
 IMG_EXT_RE:/\.(png|webp|jpg|jpeg|gif)(\?.*)?$/i,
 VIDEO_EXT_RE:/\.(mp4|webm)(\?.*)?$/i,
