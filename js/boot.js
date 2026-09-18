@@ -297,8 +297,8 @@ showScreen("scr-picker");
 gEl("guidechar1").src=GUIDE_ASSETS.char1;
 gEl("guidechar2").src=GUIDE_ASSETS.char2;
 runGuide([
-{char:2,text:"ยินดีต้อนรับผู้เล่นครับ"},
-{char:1,text:"ไงยินดีต้อนรับเช่นกัน เรามาเลือกการ์ด 1 ใน 3 นี้กัน"}
+{char:1,text:"ยินดีต้อนรับผู้เล่นครับ"},
+{char:2,text:"ไงยินดีต้อนรับเช่นกัน เรามาเลือกการ์ด 1 ใน 3 นี้กัน"}
 ]);
 const cards=(GAME&&GAME.starterCards)||[];
 const list=document.getElementById("pickerlist");
@@ -525,13 +525,15 @@ function renderLeagueTeams(){
 const leagues=(GAME&&GAME.leagues)||[];
 const lg=leagues[leagueIndex];
 if(!lg)return;
-crossfadeLeagueBg(lg.bg);
+const teams=lg.teams||[];
+crossfadeLeagueBg((teams[0]&&teams[0].bg)||lg.bg);
+gEl("leaguename").textContent=lg.name||"";
+gEl("leaguename").style.color=lg.themeColor||"#ffcf7a";
 const wrap=gEl("leagueteams");
 wrap.classList.remove("sweepin");
 void wrap.offsetWidth;
 wrap.classList.add("sweepin");
 wrap.innerHTML="";
-const teams=lg.teams||[];
 leagueTeamPicked=teams[0]||null;
 gEl("leagueconfirm").classList.toggle("ready",!!leagueTeamPicked);
 teams.forEach((t,i)=>{
@@ -551,6 +553,7 @@ wrap.querySelectorAll(".league__teamcard").forEach(p=>p.classList.remove("select
 el.classList.add("selected");
 leagueTeamPicked=t;
 gEl("leagueconfirm").classList.add("ready");
+crossfadeLeagueBg(t.bg||lg.bg);
 };
 wrap.appendChild(el);
 });
