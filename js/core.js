@@ -38,6 +38,11 @@ isFirstDone(){return!!localStorage.getItem(K.firstDone)},
 setFirstDone(){localStorage.setItem(K.firstDone,"1")},
 setTeamSetup(obj){localStorage.setItem("tbfc_team_setup",JSON.stringify(obj))},
 getTeamSetup(){try{return JSON.parse(localStorage.getItem("tbfc_team_setup")||"null")}catch(e){return null}},
+resetOnboarding(){
+localStorage.removeItem(K.firstDone);
+localStorage.removeItem("tbfc_team_setup");
+localStorage.removeItem(K.card);
+},
 wipeAll(keepProgress){
 const keep={};
 if(keepProgress){
@@ -386,7 +391,6 @@ function showInfoModal(mountEl,title,body){
 mountEl.innerHTML=`
 <div class="modal active" id="tbfc-modal">
 <div class="modal__box">
-<div class="modal__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="13" stroke-linecap="round"/><circle cx="12" cy="16.2" r=".9" fill="currentColor" stroke="none"/></svg></div>
 <div class="modal__title">${title}</div>
 <p>${body}</p>
 <button id="tbfc-modal-close">ตกลง</button>
@@ -395,34 +399,45 @@ mountEl.innerHTML=`
 mountEl.querySelector("#tbfc-modal-close").onclick=()=>{mountEl.innerHTML=""};
 }
 
-function showNeedInternetModal(mountEl,onRetry){
-mountEl.innerHTML=`
-<div class="modal active" id="tbfc-modal">
-<div class="modal__box">
-<div class="modal__icon warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8.5c5.5-5 14.5-5 20 0M5.5 12c3.7-3.3 9.3-3.3 13 0M9 15.5c2-1.7 4-1.7 6 0" stroke-linecap="round"/><line x1="3" y1="3" x2="21" y2="21" stroke-linecap="round"/></svg></div>
-<div class="modal__title">ต้องเชื่อมต่ออินเทอร์เน็ต</div>
-<p>การเข้าใช้งานครั้งแรกต้องเชื่อมต่ออินเทอร์เน็ตเพื่อโหลดข้อมูลและทรัพยากรที่จำเป็นเสมอ กรุณาเปิดใช้งานอินเทอร์เน็ตแล้วลองอีกครั้ง</p>
-<button id="tbfc-modal-retry">ลองอีกครั้ง</button>
-</div>
-</div>`;
-mountEl.querySelector("#tbfc-modal-retry").onclick=()=>{
-mountEl.innerHTML="";
-if(typeof onRetry==="function")onRetry();
+const CONNBAR_MESSAGES={
+internet:["ต้องเชื่อมต่ออินเทอร์เน็ต","กรุณาเปิดใช้งานอินเทอร์เน็ต","กำลังรอสัญญาณเครือข่าย","แตะหน้าจอเพื่อลองใหม่","กำลังตรวจสอบการเชื่อมต่อ"],
+incomplete:["เน็ตไม่เสถียร","กำลังวอร์มเครื่อง","กำลังจัดตลาด","กำลังจัดสรรข้อมูล","กำลังปรับสัญญาณ","กำลังเช็คการเชื่อมต่อ","กำลังลองใหม่อีกครั้ง","กำลังเตรียมข้อมูล","กำลังซิงค์เซิร์ฟเวอร์","กำลังจัดคิวทรัพยากร"]
 };
+let _connbarTimer=null,_connbarOnline=null;
+function hideConnBar(mountEl){
+if(_connbarTimer){clearInterval(_connbarTimer);_connbarTimer=null}
+if(_connbarOnline){window.removeEventListener("online",_connbarOnline);_connbarOnline=null}
+mountEl.innerHTML="";
 }
-
-function showLoadIncompleteModal(mountEl,onRetry){
+function showConnBar(mountEl,kind,onRetry){
+hideConnBar(mountEl);
+const msgs=CONNBAR_MESSAGES[kind]||CONNBAR_MESSAGES.incomplete;
 mountEl.innerHTML=`
-<div class="modal active" id="tbfc-modal">
-<div class="modal__box">
-<div class="modal__icon warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="13" stroke-linecap="round"/><circle cx="12" cy="16.2" r=".9" fill="currentColor" stroke="none"/></svg></div>
-<div class="modal__title">โหลดข้อมูลไม่ครบ</div>
-<p>การเชื่อมต่อไม่เสถียรพอให้โหลดข้อมูล กรุณาตรวจสอบอินเทอร์เน็ตแล้วลองใหม่อีกครั้ง</p>
-<button id="tbfc-modal-retry">ลองอีกครั้ง</button>
-</div>
+<div class="connbar" id="tbfc-connbar">
+<div class="connbar__text" id="tbfc-connbar-text">${msgs[0]}</div>
+<div class="connbar__bar"><div class="connbar__fill"></div><div class="connbar__fill connbar__fill--2"></div></div>
+<div class="connbar__tap">แตะหน้าจอเพื่อลองใหม่</div>
 </div>`;
-mountEl.querySelector("#tbfc-modal-retry").onclick=()=>{
-mountEl.innerHTML="";
+requestAnimationFrame(()=>mountEl.querySelector(".connbar").classList.add("show"));
+const textEl=mountEl.querySelector("#tbfc-connbar-text");
+let step=0,mi=0;
+_connbarTimer=setInterval(()=>{
+step++;
+const dotCount=step%4;
+if(dotCount===0)mi=(mi+1)%msgs.length;
+textEl.textContent=msgs[mi]+".".repeat(dotCount);
+},420);
+function finish(){
+hideConnBar(mountEl);
 if(typeof onRetry==="function")onRetry();
-};
+}
+_connbarOnline=()=>finish();
+window.addEventListener("online",_connbarOnline,{once:true});
+mountEl.querySelector("#tbfc-connbar").addEventListener("click",finish,{once:true});
+}
+function showNeedInternetModal(mountEl,onRetry){
+showConnBar(mountEl,"internet",onRetry);
+}
+function showLoadIncompleteModal(mountEl,onRetry){
+showConnBar(mountEl,"incomplete",onRetry);
 }
