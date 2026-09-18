@@ -374,6 +374,15 @@
      "bg": "https://tansumbasketballfc.github.io/update/bg/bgget2026.webp"
     },
     {
+     "id": "pai",
+     "name": "PAI",
+     "abbr": "PAT",
+     "logo": "https://tansumbasketballfc.github.io/update/team/pai2026.webp",
+     "themeColor": "#2bd98a",
+     "bgId": "bg_get",
+     "bg": "https://tansumbasketballfc.github.io/update/bg/bgpai2026.webp"
+    },
+    {
      "id": "lee",
      "name": "LEE",
      "abbr": "LEE",
