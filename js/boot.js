@@ -517,8 +517,27 @@ showLeague();
 };
 }
 
-let leagueIndex=0,leagueTeamPicked=null;
-const railDrag={active:false,startY:0,startX:0,moved:false,pid:null};
+let leagueIndex=0,leagueTeamPicked=null,leagueStatusTimer=null,leagueRetryBusy=false;
+const railDrag={active:false,startY:0,startX:0,moved:false,pid:null,pointerType:null};
+const LEAGUE_STATUS_MSGS=["กำลังเสาะหาดาวรุ่ง...","กำลังวอร์มอัฟ...","กำลังจัดสรรทีม...","กำลังเช็คสภาพสนาม...","กำลังปรับสมดุลทีม...","กำลังโหลดข้อมูลนักบาส...","กำลังตรวจสอบสัญญาทีม...","กำลังจัดคิวผู้เล่น...","กำลังเช็คโลโก้ทีม...","กำลังปัดฝุ่นสนาม...","กำลังคำนวณฟอร์มทีม...","กำลังซิงค์ข้อมูลลีก...","กำลังจัดแสงในสนาม...","กำลังนับถอยหลังเกมส์...","กำลังเตรียมทีมในตำนาน...","กำลังปลุกพลังนักบาส..."];
+function startLeagueStatusTicker(){
+stopLeagueStatusTicker();
+const el=gEl("leaguestatustext");
+if(!el)return;
+let idx=0;
+function tick(){
+el.classList.remove("fadein");
+void el.offsetWidth;
+el.textContent=LEAGUE_STATUS_MSGS[idx%LEAGUE_STATUS_MSGS.length];
+el.classList.add("fadein");
+idx++;
+}
+tick();
+leagueStatusTimer=setInterval(tick,2400);
+}
+function stopLeagueStatusTicker(){
+if(leagueStatusTimer){clearInterval(leagueStatusTimer);leagueStatusTimer=null}
+}
 function playLeagueWipe(onMid){
 const wipe=gEl("leaguewipe");
 if(!wipe){onMid();return}
@@ -540,110 +559,285 @@ renderLeagueRail();
 renderLeagueTeams();
 });
 }
+function getLeagues(){return(GAME&&Array.isArray(GAME.leagues))?GAME.leagues:[]}
 function wireLeagueRailSwipe(){
 const rail=gEl("leaguerail");
-if(rail.dataset.swipeWired)return;
+if(!rail||rail.dataset.swipeWired)return;
 rail.dataset.swipeWired="1";
 rail.style.touchAction="none";
-rail.addEventListener("pointerdown",e=>{
+function start(x,y){
 railDrag.active=true;
 railDrag.moved=false;
-railDrag.startY=e.clientY;
-railDrag.startX=e.clientX;
-railDrag.pid=e.pointerId;
-try{rail.setPointerCapture(e.pointerId)}catch(err){}
-});
-rail.addEventListener("pointermove",e=>{
+railDrag.startY=y;
+railDrag.startX=x;
+}
+function move(x,y){
 if(!railDrag.active)return;
-const dy=e.clientY-railDrag.startY,dx=e.clientX-railDrag.startX;
+const dy=y-railDrag.startY,dx=x-railDrag.startX;
 if(Math.abs(dy)>10||Math.abs(dx)>10)railDrag.moved=true;
-});
-function endDrag(e){
+}
+function end(y){
 if(!railDrag.active)return;
 railDrag.active=false;
-const dy=e.clientY-railDrag.startY;
-const leagues=(GAME&&GAME.leagues)||[];
+const dy=y-railDrag.startY;
+const leagues=getLeagues();
 if(Math.abs(dy)>32&&leagues.length>1){
 const dir=dy<0?1:-1;
 selectLeague(leagueIndex+dir);
 }
 }
-rail.addEventListener("pointerup",endDrag);
-rail.addEventListener("pointercancel",endDrag);
+rail.addEventListener("pointerdown",e=>{railDrag.pointerType=e.pointerType;start(e.clientX,e.clientY);try{rail.setPointerCapture(e.pointerId)}catch(err){}});
+rail.addEventListener("pointermove",e=>{if(railDrag.pointerType==="touch")return;move(e.clientX,e.clientY)});
+rail.addEventListener("pointerup",e=>{if(railDrag.pointerType==="touch")return;end(e.clientY)});
+rail.addEventListener("pointercancel",()=>{railDrag.active=false});
+rail.addEventListener("touchstart",e=>{const t=e.touches[0];if(t)start(t.clientX,t.clientY)},{passive:true});
+rail.addEventListener("touchmove",e=>{const t=e.touches[0];if(t)move(t.clientX,t.clientY)},{passive:true});
+rail.addEventListener("touchend",e=>{const t=e.changedTouches[0];if(t)end(t.clientY)},{passive:true});
 rail.addEventListener("click",e=>{
 if(railDrag.moved){e.stopPropagation();e.preventDefault();railDrag.moved=false}
 },true);
+let wheelLock=false;
+rail.addEventListener("wheel",e=>{
+if(wheelLock)return;
+const leagues=getLeagues();
+if(leagues.length<=1)return;
+wheelLock=true;
+selectLeague(leagueIndex+(e.deltaY>0?1:-1));
+setTimeout(()=>{wheelLock=false},260);
+},{passive:true});
+}
+function wireLeagueArrows(){
+const up=gEl("leaguenavup"),down=gEl("leaguenavdown");
+if(up&&!up.dataset.wired){
+up.dataset.wired="1";
+up.onclick=()=>{playSound("tap");selectLeague(leagueIndex-1)};
+}
+if(down&&!down.dataset.wired){
+down.dataset.wired="1";
+down.onclick=()=>{playSound("tap");selectLeague(leagueIndex+1)};
+}
+}
+function wireTeamCardTilt(el){
+if(!el||el.dataset.tiltWired)return;
+el.dataset.tiltWired="1";
+function apply(clientX,clientY){
+const r=el.getBoundingClientRect();
+const px=(clientX-r.left)/r.width-0.5,py=(clientY-r.top)/r.height-0.5;
+el.style.transform=`perspective(600px) rotateX(${(-py*10).toFixed(2)}deg) rotateY(${(px*10).toFixed(2)}deg)`;
+}
+function reset(){el.style.transform=""}
+el.addEventListener("pointermove",e=>{if(e.pointerType==="mouse")apply(e.clientX,e.clientY)});
+el.addEventListener("pointerleave",reset);
+el.addEventListener("pointerdown",e=>{if(e.pointerType!=="mouse")apply(e.clientX,e.clientY)});
+el.addEventListener("pointerup",reset);
+el.addEventListener("pointercancel",reset);
+}
+function wireLeagueBgParallax(){
+const stage=gEl("scr-league");
+if(!stage||stage.dataset.parallaxWired)return;
+stage.dataset.parallaxWired="1";
+stage.addEventListener("pointermove",e=>{
+if(e.pointerType!=="mouse")return;
+const px=(e.clientX/window.innerWidth-0.5)*10,py=(e.clientY/window.innerHeight-0.5)*10;
+["leaguebg","leaguebgnext"].forEach(id=>{
+const el=gEl(id);
+if(el)el.style.transform=`scale(1.08) translate(${px}px,${py}px)`;
+});
+});
+}
+function setBgRobust(el,url,fallbackUrl){
+if(!el)return;
+const useUrl=url||fallbackUrl;
+if(!useUrl)return;
+const img=new Image();
+img.onload=()=>{el.style.backgroundImage=`url(${useUrl})`};
+img.onerror=()=>{if(fallbackUrl&&fallbackUrl!==useUrl)el.style.backgroundImage=`url(${fallbackUrl})`};
+img.src=useUrl;
 }
 function crossfadeLeagueBg(url){
 const cur=gEl("leaguebg"),next=gEl("leaguebgnext");
-if(!url)return;
-next.style.backgroundImage=`url(${url})`;
+const fallback=(GAME&&GAME.loadingBg)||"";
+const useUrl=url||fallback;
+if(!cur||!next||!useUrl)return;
+if(!cur.style.backgroundImage||cur.style.backgroundImage==="none"){
+cur.style.backgroundImage=`url(${useUrl})`;
+}
+next.style.backgroundImage=`url(${useUrl})`;
 next.classList.add("show");
+cur.classList.remove("punch");
+next.classList.remove("punch");
+void next.offsetWidth;
+cur.classList.add("punch");
+next.classList.add("punch");
 setTimeout(()=>{
-cur.style.backgroundImage=`url(${url})`;
+cur.style.backgroundImage=`url(${useUrl})`;
 next.classList.remove("show");
 },420);
+setTimeout(()=>{cur.classList.remove("punch");next.classList.remove("punch")},560);
 }
 function renderLeagueRail(){
 const rail=gEl("leaguerail");
-const leagues=(GAME&&GAME.leagues)||[];
+if(!rail)return;
+const leagues=getLeagues();
 rail.innerHTML="";
 leagues.forEach((lg,i)=>{
 const el=document.createElement("div");
-el.className="league__railitem"+(i===leagueIndex?" active":"");
+el.className="league__railitem"+(i===leagueIndex?" active pop":"");
 const img=document.createElement("img");
 setImgWithFallback(img,lg.icon||lg.bg||"",el);
 el.appendChild(img);
 el.onclick=()=>selectLeague(i);
 rail.appendChild(el);
 });
-gEl("leaguerailindex").textContent=leagues.length?`${leagueIndex+1}/${leagues.length}`:"";
-gEl("leaguerail").classList.toggle("swipeable",leagues.length>1);
+const idxEl=gEl("leaguerailindex");
+if(idxEl){
+idxEl.textContent=leagues.length?`${leagueIndex+1}/${leagues.length}`:"";
+idxEl.classList.remove("tick");
+void idxEl.offsetWidth;
+idxEl.classList.add("tick");
+}
+rail.classList.toggle("swipeable",leagues.length>1);
+const up=gEl("leaguenavup"),down=gEl("leaguenavdown");
+if(up)up.classList.toggle("hide",leagues.length<=1);
+if(down)down.classList.toggle("hide",leagues.length<=1);
+const nameEl=gEl("leaguename");
+if(nameEl){
+const lg=leagues[leagueIndex];
+nameEl.textContent=lg?(lg.name||""):"";
+nameEl.classList.remove("swapping");
+void nameEl.offsetWidth;
+nameEl.classList.add("swapping");
+}
+}
+function burstSparkle(cardEl,count){
+const n=count||7;
+for(let i=0;i<n;i++){
+const s=document.createElement("i");
+s.className="league__sparkle";
+const ang=Math.random()*360,dist=26+Math.random()*30;
+s.style.setProperty("--ang",ang+"deg");
+s.style.setProperty("--dist",dist+"px");
+s.style.left="50%";
+s.style.top="50%";
+s.style.animationDelay=(Math.random()*80)+"ms";
+cardEl.appendChild(s);
+setTimeout(()=>{if(s.parentNode)s.parentNode.removeChild(s)},900);
+}
+}
+function wireCardIdleSparkle(el){
+if(el.dataset.idleSparkle)return;
+el.dataset.idleSparkle="1";
+const timer=setInterval(()=>{
+if(!el.classList.contains("selected")||!el.isConnected){clearInterval(timer);return}
+burstSparkle(el,1);
+},650);
+}
+function letterSpanify(text){
+return text.split("").map((ch,i)=>`<span class="league__teamnamechar" style="animation-delay:${i*28}ms">${ch===" "?"&nbsp;":ch}</span>`).join("");
 }
 function renderLeagueTeams(){
-const leagues=(GAME&&GAME.leagues)||[];
+const leagues=getLeagues();
 const lg=leagues[leagueIndex];
-if(!lg)return;
-crossfadeLeagueBg(lg.bg);
 const wrap=gEl("leagueteams");
+if(!lg||!wrap)return;
 wrap.classList.remove("sweepin");
 void wrap.offsetWidth;
 wrap.classList.add("sweepin");
 wrap.innerHTML="";
 const teams=lg.teams||[];
 leagueTeamPicked=teams[0]||null;
-gEl("leagueconfirm").classList.toggle("ready",!!leagueTeamPicked);
+crossfadeLeagueBg((leagueTeamPicked&&leagueTeamPicked.bg)||lg.bg);
+const confirmBtn=gEl("leagueconfirm");
+if(confirmBtn)confirmBtn.classList.toggle("ready",!!leagueTeamPicked);
 teams.forEach((t,i)=>{
 const el=document.createElement("div");
 el.className="league__teamcard"+(i===0?" selected":"");
 el.style.animationDelay=(i*60)+"ms";
+el.style.setProperty("--teamcolor",t.themeColor||"#ff8a3d");
 const logoWrap=document.createElement("div");
-logoWrap.className="league__teamlogo"+(t.isCreate?" iscreate":"");
+logoWrap.className="league__teamlogo loading"+(t.isCreate?" iscreate":"");
 const img=document.createElement("img");
+img.addEventListener("load",()=>logoWrap.classList.remove("loading"),{once:true});
+img.addEventListener("error",()=>logoWrap.classList.remove("loading"),{once:true});
 setImgWithFallback(img,t.logo||"",logoWrap);
 logoWrap.appendChild(img);
 el.appendChild(logoWrap);
-el.insertAdjacentHTML("beforeend",`<div class="league__teamname">${t.name||""}</div>`);
+el.insertAdjacentHTML("beforeend",`<div class="league__teamname">${letterSpanify(t.name||"")}</div>`);
 el.onclick=()=>{
 playSound("select");
 wrap.querySelectorAll(".league__teamcard").forEach(p=>p.classList.remove("selected"));
 el.classList.add("selected");
 leagueTeamPicked=t;
-gEl("leagueconfirm").classList.add("ready");
+crossfadeLeagueBg(t.bg||lg.bg);
+burstSparkle(el,9);
+wireCardIdleSparkle(el);
+if(confirmBtn)confirmBtn.classList.add("ready");
 };
+wireTeamCardTilt(el);
+if(i===0)wireCardIdleSparkle(el);
 wrap.appendChild(el);
 });
 }
-function showLeague(){
-showScreen("scr-league");
-leagueIndex=0;
+function setLeagueEmptyState(show){
+const empty=gEl("leagueempty");
+const rail=gEl("leaguerail");
+const teams=gEl("leagueteams");
+if(!empty)return;
+empty.classList.toggle("show",!!show);
+if(rail)rail.classList.toggle("hide",!!show);
+if(teams)teams.classList.toggle("hide",!!show);
+}
+async function retryLeagueLoad(){
+if(leagueRetryBusy)return;
+leagueRetryBusy=true;
+const retryBtn=gEl("leagueretrybtn");
+if(retryBtn)retryBtn.classList.add("busy");
+try{
+const result=await DataSync.syncWithProgress(()=>{});
+if(result&&result.bundle)GAME=result.bundle;
+}catch(e){}
+leagueRetryBusy=false;
+if(retryBtn)retryBtn.classList.remove("busy");
+renderLeagueScreen();
+}
+function renderLeagueScreen(){
+const leagues=getLeagues();
+if(!leagues.length){
+setLeagueEmptyState(true);
+return;
+}
+setLeagueEmptyState(false);
+if(leagueIndex>=leagues.length)leagueIndex=0;
 renderLeagueRail();
 renderLeagueTeams();
+}
+function showLeague(){
+showScreen("scr-league");
+const stage=gEl("scr-league");
+if(stage){
+stage.classList.remove("enter");
+void stage.offsetWidth;
+stage.classList.add("enter");
+}
+leagueIndex=0;
+renderLeagueScreen();
 wireLeagueRailSwipe();
+wireLeagueArrows();
+wireLeagueBgParallax();
+spawnParticles("leagueparticles",14);
+startLeagueStatusTicker();
+const retryBtn=gEl("leagueretrybtn");
+if(retryBtn&&!retryBtn.dataset.wired){
+retryBtn.dataset.wired="1";
+retryBtn.onclick=()=>{playSound("tap");retryLeagueLoad()};
+}
+if(!getLeagues().length)retryLeagueLoad();
+wireRipple(gEl("leagueconfirm"));
 gEl("leagueconfirm").onclick=()=>{
 if(!leagueTeamPicked)return;
+stopLeagueStatusTicker();
 playSound("confirm");
-const leagues=(GAME&&GAME.leagues)||[];
+const leagues=getLeagues();
 SELECTEDLEAGUE=leagues[leagueIndex]||null;
 if(leagueTeamPicked.isCreate){
 showTeamCreate();
@@ -653,7 +847,7 @@ Store.setTeamSetup&&Store.setTeamSetup({league:SELECTEDLEAGUE&&SELECTEDLEAGUE.id
 showName();
 }
 };
-runGuide([{char:1,text:"เรามาเลือกทีมกันเถอะ คุณสามารถสร้างทีมสุดปั่นของคุณได้นะ ให้เลือกไปที่ My League และใส่รายละเอียดทีมสุดอลังการของคุณได้เลย"}]);
+runGuide([{char:1,text:"เรามาเลือกทีมกันเถอะ เลือกทีมที่ใช่ของคุณจากลีก Tansum Basketball League แล้วกดยืนยันได้เลย"}]);
 }
 
 function spawnParticles(containerId,count){
@@ -678,6 +872,7 @@ el.classList.add("shake");
 }
 let teamLogoDataUrl=null;
 function showTeamCreate(){
+stopLeagueStatusTicker();
 showScreen("scr-teamcreate");
 teamLogoDataUrl=null;
 gEl("teamcreatelogoimg").removeAttribute("src");
@@ -746,14 +941,30 @@ showName();
 };
 }
 
+function wireRipple(btn){
+if(!btn||btn.dataset.rippleWired)return;
+btn.dataset.rippleWired="1";
+btn.addEventListener("pointerdown",e=>{
+const r=btn.getBoundingClientRect();
+const s=document.createElement("span");
+s.className="btnripple";
+s.style.left=(e.clientX-r.left)+"px";
+s.style.top=(e.clientY-r.top)+"px";
+btn.appendChild(s);
+setTimeout(()=>{if(s.parentNode)s.parentNode.removeChild(s)},650);
+});
+}
 function showName(){
+stopLeagueStatusTicker();
 showScreen("scr-name");
 const namebg=gEl("namebg");
-if(namebg&&SELECTEDTEAM)namebg.style.backgroundImage=`url(${(SELECTEDTEAM&&SELECTEDTEAM.bg)||(SELECTEDLEAGUE&&SELECTEDLEAGUE.bg)||""})`;
+const fallbackBg=(GAME&&GAME.loadingBg)||"";
+setBgRobust(namebg,(SELECTEDTEAM&&SELECTEDTEAM.bg)||(SELECTEDLEAGUE&&SELECTEDLEAGUE.bg),fallbackBg);
 spawnParticles("namepageparticles",16);
 gEl("playername").value="";
 gEl("namepageerr").textContent="";
 gEl("playername").oninput=e=>{e.target.value=e.target.value.replace(/[^A-Za-z0-9_-]/g,"").slice(0,12)};
+wireRipple(gEl("namepageconfirm"));
 gEl("namepageconfirm").onclick=()=>{
 const name=gEl("playername").value.trim();
 if(!name||name.length>12){
@@ -763,11 +974,13 @@ shakeEl(gEl("playername"));
 return;
 }
 playSound("confirm");
+const btn=gEl("namepageconfirm");
+btn.classList.add("success");
 Store.setFirstDone&&Store.setFirstDone();
 const setup=(Store.getTeamSetup&&Store.getTeamSetup())||{};
 setup.playerName=name;
 Store.setTeamSetup&&Store.setTeamSetup(setup);
-goHome();
+setTimeout(()=>goHome(),360);
 };
 runGuide([{char:3,text:"เรามาทำความรู้จักกันเถอะนะ"}]);
 }
