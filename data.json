@@ -6,8 +6,8 @@
   "maintenance": false,
   "maintenanceMessage": "",
   "firstLaunchStrict": true,
-  "resetToken": "1",
-  "wipePlayerProgress": false,
+  "resetToken": "2",
+  "wipePlayerProgress": true,
   "moduleVersions": {
    "match": "กำลังซ่อมแซม...",
    "shop": "กำลังซ่อมแซม...",
@@ -210,7 +210,7 @@
  },
  "news": [],
  "version": "2026.14.15.2",
- "resetToken": "1",
+ "resetToken": "2",
  "notice": "",
  "assetsManifest": {
   "critical": [
@@ -330,28 +330,10 @@
  },
  "leagues": [
   {
-   "id": "myleague",
-   "name": "My League",
-   "isCustom": true,
-   "icon": "https://tansumbasketballfc.github.io/update/team/myleague2026..webp",
-   "bg": "https://tansumbasketballfc.github.io/update/bg/tansumbasketballfcleague2026.webp",
-   "themeColor": "#ff8a3d",
-   "teams": [
-    {
-     "id": "create_new_team",
-     "name": "สร้างทีมใหม่",
-     "abbr": "NEW",
-     "logo": "https://tansumbasketballfc.github.io/update/team/create_new_team.webp",
-     "themeColor": "#ff8a3d",
-     "isCreate": true
-    }
-   ]
-  },
-  {
    "id": "tansum_league",
    "name": "Tansum Basketball League",
    "isCustom": false,
-   "icon": "https://tansumbasketballfc.github.io/update/bg/tansumbasketballfcleague2026.webp",
+   "icon": "https://tansumbasketballfc.github.io/update/team/tansumbasketballfcleague2026.webp",
    "bg": "https://tansumbasketballfc.github.io/update/bg/bgtansumbasketballfcleague2026.webp",
    "themeColor": "#ff6a2b",
    "teams": [
@@ -376,10 +358,10 @@
     {
      "id": "pai",
      "name": "PAI",
-     "abbr": "PAT",
+     "abbr": "PAI",
      "logo": "https://tansumbasketballfc.github.io/update/team/pai2026.webp",
-     "themeColor": "#2bd98a",
-     "bgId": "bg_get",
+     "themeColor": "#2bc5d9",
+     "bgId": "bg_pai",
      "bg": "https://tansumbasketballfc.github.io/update/bg/bgpai2026.webp"
     },
     {
