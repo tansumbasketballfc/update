@@ -1,291 +1,406 @@
 {
-  "config": {
-    "netMode": "offline",
-    "minAppBuild": 1,
-    "themeColor": "#ff6a2b",
-    "maintenance": false,
-    "maintenanceMessage": "",
-    "firstLaunchStrict": true,
-    "resetToken": "1",
-    "wipePlayerProgress": false,
-    "moduleVersions": {
-      "match": "กำลังซ่อมแซม...",
-      "shop": "กำลังซ่อมแซม...",
-      "team": "กำลังซ่อมแซม..."
-    }
-  },
-  "loadingBg": "https://tansumbasketballfc.github.io/update/bg/beta2026.webp",
-  "gateBg": "https://tansumbasketballfc.github.io/update/bg/zpink2026.webp",
-  "season": {
-    "id": "s1",
-    "name": "BETA",
-    "bg1": "https://tansumbasketballfc.github.io/update/bg/pipo2026.webp",
-    "bg2": "https://tansumbasketballfc.github.io/update/bg/pet2026.webp",
-    "bg3": "https://tansumbasketballfc.github.io/update/bg/1_zpink2026.webp",
-    "bg4": "https://tansumbasketballfc.github.io/update/bg/2_zpink2026.webp",
-    "bg5": "https://tansumbasketballfc.github.io/update/bg/3_zpink2026.webp",
-    "bgList": [
-      "https://tansumbasketballfc.github.io/update/bg/pipo2026.webp",
-      "https://tansumbasketballfc.github.io/update/bg/pet2026.webp",
-      "https://tansumbasketballfc.github.io/update/bg/1_zpink2026.webp",
-      "https://tansumbasketballfc.github.io/update/bg/2_zpink2026.webp",
-      "https://tansumbasketballfc.github.io/update/bg/3_zpink2026.webp"
-    ],
-    "themeColor": "#ff8a3d",
-    "promoBanner": "https://tansumbasketballfc.github.io/update/bin/zpinkpromo.webp"
-  },
-  "starterCards": [
-    {
-      "id": "Leela_Leela_Welcome2026",
-      "name": "Leela Leela",
-      "nickname": "Lee",
-      "firstName": "Leela",
-      "lastName": "Leela",
-      "age": "67",
-      "height": "67",
-      "weight": "67",
-      "position": "C",
-      "rarity": "ยินดีต้อนรับ TBFC 26",
-      "bg": "https://tansumbasketballfc.github.io/update/card/welcome2026.webp",
-      "cutout": "https://tansumbasketballfc.github.io/update/card/leela_leela_welcome2026.webp",
-      "ovr": 53,
-      "stats": {
-        "shoot": 53,
-        "pass": 53,
-        "defense": 53,
-        "speed": 53,
-        "agility": 53
-      },
-      "attributes": {
-        "stamina": 53,
-        "offenseIQ": 50,
-        "defenseIQ": 52,
-        "condition": 58,
-        "jump": 47,
-        "jumpPower": 46,
-        "spinMove": 45,
-        "findGap": 44,
-        "powerPass": 51,
-        "bouncePass": 53,
-        "hook": 42,
-        "dribbling": 48,
-        "block": 46,
-        "steal": 49,
-        "rebound": 54,
-        "freeThrow": 55,
-        "midRange": 50,
-        "threePoint": 41,
-        "closeShot": 53,
-        "layup": 52,
-        "dunk": 40,
-        "passAccuracy": 53,
-        "reaction": 43,
-        "balance": 50,
-        "vision": 45
-      },
-      "skills": [
-        "เหม่อจอมบัค",
-        "ลีลาลีล่า",
-        "แข็งแกร่งเหมือนลี",
-        "ช้างต้นกระบองเพชร"
-      ],
-      "form": "F"
-    },
-    {
-      "id": "Natthawat_Junthawe_Welcome2026",
-      "name": "Natthawát",
-      "nickname": "Kím",
-      "firstName": "Natthawát",
-      "lastName": "Junthawé",
-      "age": "15",
-      "height": "169",
-      "weight": "59",
-      "position": "C",
-      "rarity": "ยินดีต้อนรับ TBFC 26",
-      "bg": "https://tansumbasketballfc.github.io/update/card/welcome2026.webp",
-      "cutout": "https://tansumbasketballfc.github.io/update/card/natthawat_junthawe_welcome2026.webp",
-      "ovr": 60,
-      "stats": {
-        "shoot": 60,
-        "pass": 60,
-        "defense": 60,
-        "speed": 60,
-        "agility": 60
-      },
-      "attributes": {
-        "stamina": 62,
-        "offenseIQ": 61,
-        "defenseIQ": 58,
-        "condition": 63,
-        "jump": 57,
-        "jumpPower": 56,
-        "spinMove": 66,
-        "findGap": 62,
-        "powerPass": 58,
-        "bouncePass": 61,
-        "hook": 50,
-        "dribbling": 67,
-        "block": 59,
-        "steal": 58,
-        "rebound": 55,
-        "freeThrow": 62,
-        "midRange": 60,
-        "threePoint": 55,
-        "closeShot": 61,
-        "layup": 63,
-        "dunk": 47,
-        "passAccuracy": 63,
-        "reaction": 60,
-        "balance": 69,
-        "vision": 69
-      },
-      "skills": [
-        "พริ้วไหว"
-      ],
-      "form": "D"
-    },
-    {
-      "id": "Sitthichai_Homyen_Welcome2026",
-      "name": "Sitthichai",
-      "nickname": "Chiew",
-      "firstName": "Sitthichai",
-      "lastName": "Homyen",
-      "age": "11",
-      "height": "153",
-      "weight": "37",
-      "position": "C",
-      "rarity": "ยินดีต้อนรับ TBFC 26",
-      "bg": "https://tansumbasketballfc.github.io/update/card/welcome2026.webp",
-      "cutout": "https://tansumbasketballfc.github.io/update/card/sitthichai_homyen_welcome2026.webp",
-      "ovr": 55,
-      "stats": {
-        "shoot": 53,
-        "pass": 53,
-        "defense": 53,
-        "speed": 56,
-        "agility": 56
-      },
-      "attributes": {
-        "stamina": 57,
-        "offenseIQ": 49,
-        "defenseIQ": 51,
-        "condition": 60,
-        "jump": 52,
-        "jumpPower": 50,
-        "spinMove": 54,
-        "findGap": 47,
-        "powerPass": 48,
-        "bouncePass": 52,
-        "hook": 40,
-        "dribbling": 55,
-        "block": 43,
-        "steal": 53,
-        "rebound": 46,
-        "freeThrow": 51,
-        "midRange": 48,
-        "threePoint": 44,
-        "closeShot": 53,
-        "layup": 45,
-        "dunk": 28,
-        "passAccuracy": 50,
-        "reaction": 52,
-        "balance": 54,
-        "vision": 46
-      },
-      "skills": [
-        "เรียกบอล"
-      ],
-      "form": "F"
-    }
-  ],
-  "ui": {
-    "appName": "TBFC 26",
-    "needInternetTitle": "ต้องเชื่อมต่ออินเทอร์เน็ต",
-    "needInternetBody": "กรุณาเปิดใช้งานอินเทอร์เน็ตเพื่อเข้าเล่นในครั้งแรก แล้วลองอีกครั้ง",
-    "loadIncompleteTitle": "ERROR FUNCGINES CLOUD โหลดข้อมูลไม่ครบถ้วนหรือ funcgines cloud data game tbfc update เท่ากับ ERROR",
-    "loadIncompleteBody": "การเชื่อมต่อไม่เสถียรพอในการโหลด กรุณาตรวจสอบอินเทอร์เน็ตแล้วลองใหม่อีกครั้ง",
-    "retryLabel": "ลองอีกครั้ง",
-    "comingSoonTitle": "กำลังซ่อมแซม",
-    "comingSoonBody": "กำลังซ่อมแซม..."
-  },
-  "news": [],
-  "version": "2026.14.15.1",
+ "config": {
+  "netMode": "offline",
+  "minAppBuild": 1,
+  "themeColor": "#ff6a2b",
+  "maintenance": false,
+  "maintenanceMessage": "",
+  "firstLaunchStrict": true,
   "resetToken": "1",
-  "notice": "",
-  "assetsManifest": {
-    "critical": [
-      {
-        "key": "BG_Beta2026",
-        "url": "https://tansumbasketballfc.github.io/update/bg/beta2026.webp",
-        "type": "image"
-      },
-      {
-        "key": "Card_Welcome2026",
-        "url": "https://tansumbasketballfc.github.io/update/card/welcome2026.webp",
-        "type": "image"
-      },
-      {
-        "key": "Leela_Leela_Welcome2026",
-        "url": "https://tansumbasketballfc.github.io/update/card/leela_leela_welcome2026.webp",
-        "type": "image"
-      },
-      {
-        "key": "Natthawat_Junthawe_Welcome2026",
-        "url": "https://tansumbasketballfc.github.io/update/card/natthawat_junthawe_welcome2026.webp",
-        "type": "image"
-      },
-      {
-        "key": "Sitthichai_Homyen_Welcome2026",
-        "url": "https://tansumbasketballfc.github.io/update/card/sitthichai_homyen_welcome2026.webp",
-        "type": "image"
-      }
-    ],
-    "lazy": [
-      {
-        "key": "Thangpanitan_Samran_Standard2026",
-        "url": "https://tansumbasketballfc.github.io/update/card/thangpanitan_samran_standard2026.webp",
-        "type": "image"
-      },
-      {
-        "key": "Kawin_Jarusin_Standard 2026",
-        "url": "https://tansumbasketballfc.github.io/update/card/kawin_jarusin_standard2026.webp",
-        "type": "image"
-      },
-      {
-        "key": "Adison_Boonruang_Standard2026",
-        "url": "https://tansumbasketballfc.github.io/update/card/adison_boonruang_standard2026.webp",
-        "type": "image"
-      },
-      {
-        "key": "Natthawat_Junthawe_Standard 2026",
-        "url": "https://tansumbasketballfc.github.io/update/card/natthawat_junthawe_standard2026.webp",
-        "type": "image"
-      },
-      {
-        "key": "Thanakorn_Chayawiwatkool_Standard2026",
-        "url": "https://tansumbasketballfc.github.io/update/card/thanakorn_chayawiwatkool_standard2026.webp",
-        "type": "image"
-      },
-      {
-        "key": "Thepphutthra_Wisetpoon_Standard2026",
-        "url": "https://tansumbasketballfc.github.io/update/card/thepphutthra_wisetpoon_standard2026.webp",
-        "type": "image"
-      },
-      {
-        "key": "BG_Pet2026",
-        "url": "https://tansumbasketballfc.github.io/update/bg/pet2026.webp",
-        "type": "image"
-      },
-      {
-        "key": "BG_Pipo2026",
-        "url": "https://tansumbasketballfc.github.io/update/bg/pipo2026.webp",
-        "type": "image"
-      },
-      {
-        "key": "BG_One_Season2026",
-        "url": "https://tansumbasketballfc.github.io/update/bg/oneseason2026.webp",
-        "type": "image"
-      }
-    ]
+  "wipePlayerProgress": false,
+  "moduleVersions": {
+   "match": "กำลังซ่อมแซม...",
+   "shop": "กำลังซ่อมแซม...",
+   "team": "กำลังซ่อมแซม..."
   }
+ },
+ "loadingBg": "https://tansumbasketballfc.github.io/update/bg/beta2026.webp",
+ "gateBg": "https://tansumbasketballfc.github.io/update/bg/zpink2026.webp",
+ "season": {
+  "id": "s1",
+  "name": "BETA",
+  "bg1": "https://tansumbasketballfc.github.io/update/bg/pipo2026.webp",
+  "bg2": "https://tansumbasketballfc.github.io/update/bg/pet2026.webp",
+  "bg3": "https://tansumbasketballfc.github.io/update/bg/1_zpink2026.webp",
+  "bg4": "https://tansumbasketballfc.github.io/update/bg/2_zpink2026.webp",
+  "bg5": "https://tansumbasketballfc.github.io/update/bg/3_zpink2026.webp",
+  "bgList": [
+   "https://tansumbasketballfc.github.io/update/bg/pipo2026.webp",
+   "https://tansumbasketballfc.github.io/update/bg/pet2026.webp",
+   "https://tansumbasketballfc.github.io/update/bg/1_zpink2026.webp",
+   "https://tansumbasketballfc.github.io/update/bg/2_zpink2026.webp",
+   "https://tansumbasketballfc.github.io/update/bg/3_zpink2026.webp"
+  ],
+  "themeColor": "#ff8a3d",
+  "promoBanner": "https://tansumbasketballfc.github.io/update/bin/zpinkpromo.webp"
+ },
+ "starterCards": [
+  {
+   "id": "Leela_Leela_Welcome2026",
+   "name": "Leela Leela",
+   "nickname": "Lee",
+   "firstName": "Leela",
+   "lastName": "Leela",
+   "age": "67",
+   "height": "67",
+   "weight": "67",
+   "position": "C",
+   "rarity": "ยินดีต้อนรับ TBFC 26",
+   "bg": "https://tansumbasketballfc.github.io/update/card/welcome2026.webp",
+   "cutout": "https://tansumbasketballfc.github.io/update/card/leela_leela_welcome2026.webp",
+   "ovr": 53,
+   "stats": {
+    "shoot": 53,
+    "pass": 53,
+    "defense": 53,
+    "speed": 53,
+    "agility": 53
+   },
+   "attributes": {
+    "stamina": 53,
+    "offenseIQ": 50,
+    "defenseIQ": 52,
+    "condition": 58,
+    "jump": 47,
+    "jumpPower": 46,
+    "spinMove": 45,
+    "findGap": 44,
+    "powerPass": 51,
+    "bouncePass": 53,
+    "hook": 42,
+    "dribbling": 48,
+    "block": 46,
+    "steal": 49,
+    "rebound": 54,
+    "freeThrow": 55,
+    "midRange": 50,
+    "threePoint": 41,
+    "closeShot": 53,
+    "layup": 52,
+    "dunk": 40,
+    "passAccuracy": 53,
+    "reaction": 43,
+    "balance": 50,
+    "vision": 45
+   },
+   "skills": [
+    "เหม่อจอมบัค",
+    "ลีลาลีล่า",
+    "แข็งแกร่งเหมือนลี",
+    "ช้างต้นกระบองเพชร"
+   ],
+   "form": "F"
+  },
+  {
+   "id": "Natthawat_Junthawe_Welcome2026",
+   "name": "Natthawát",
+   "nickname": "Kím",
+   "firstName": "Natthawát",
+   "lastName": "Junthawé",
+   "age": "15",
+   "height": "169",
+   "weight": "59",
+   "position": "C",
+   "rarity": "ยินดีต้อนรับ TBFC 26",
+   "bg": "https://tansumbasketballfc.github.io/update/card/welcome2026.webp",
+   "cutout": "https://tansumbasketballfc.github.io/update/card/natthawat_junthawe_welcome2026.webp",
+   "ovr": 60,
+   "stats": {
+    "shoot": 60,
+    "pass": 60,
+    "defense": 60,
+    "speed": 60,
+    "agility": 60
+   },
+   "attributes": {
+    "stamina": 62,
+    "offenseIQ": 61,
+    "defenseIQ": 58,
+    "condition": 63,
+    "jump": 57,
+    "jumpPower": 56,
+    "spinMove": 66,
+    "findGap": 62,
+    "powerPass": 58,
+    "bouncePass": 61,
+    "hook": 50,
+    "dribbling": 67,
+    "block": 59,
+    "steal": 58,
+    "rebound": 55,
+    "freeThrow": 62,
+    "midRange": 60,
+    "threePoint": 55,
+    "closeShot": 61,
+    "layup": 63,
+    "dunk": 47,
+    "passAccuracy": 63,
+    "reaction": 60,
+    "balance": 69,
+    "vision": 69
+   },
+   "skills": [
+    "พริ้วไหว"
+   ],
+   "form": "D"
+  },
+  {
+   "id": "Sitthichai_Homyen_Welcome2026",
+   "name": "Sitthichai",
+   "nickname": "Chiew",
+   "firstName": "Sitthichai",
+   "lastName": "Homyen",
+   "age": "11",
+   "height": "153",
+   "weight": "37",
+   "position": "C",
+   "rarity": "ยินดีต้อนรับ TBFC 26",
+   "bg": "https://tansumbasketballfc.github.io/update/card/welcome2026.webp",
+   "cutout": "https://tansumbasketballfc.github.io/update/card/sitthichai_homyen_welcome2026.webp",
+   "ovr": 55,
+   "stats": {
+    "shoot": 53,
+    "pass": 53,
+    "defense": 53,
+    "speed": 56,
+    "agility": 56
+   },
+   "attributes": {
+    "stamina": 57,
+    "offenseIQ": 49,
+    "defenseIQ": 51,
+    "condition": 60,
+    "jump": 52,
+    "jumpPower": 50,
+    "spinMove": 54,
+    "findGap": 47,
+    "powerPass": 48,
+    "bouncePass": 52,
+    "hook": 40,
+    "dribbling": 55,
+    "block": 43,
+    "steal": 53,
+    "rebound": 46,
+    "freeThrow": 51,
+    "midRange": 48,
+    "threePoint": 44,
+    "closeShot": 53,
+    "layup": 45,
+    "dunk": 28,
+    "passAccuracy": 50,
+    "reaction": 52,
+    "balance": 54,
+    "vision": 46
+   },
+   "skills": [
+    "เรียกบอล"
+   ],
+   "form": "F"
+  }
+ ],
+ "ui": {
+  "appName": "TBFC 26",
+  "needInternetTitle": "ต้องเชื่อมต่ออินเทอร์เน็ต",
+  "needInternetBody": "กรุณาเปิดใช้งานอินเทอร์เน็ตเพื่อเข้าเล่นในครั้งแรก แล้วลองอีกครั้ง",
+  "loadIncompleteTitle": "ERROR FUNCGINES CLOUD โหลดข้อมูลไม่ครบถ้วนหรือ funcgines cloud data game tbfc update เท่ากับ ERROR",
+  "loadIncompleteBody": "การเชื่อมต่อไม่เสถียรพอในการโหลด กรุณาตรวจสอบอินเทอร์เน็ตแล้วลองใหม่อีกครั้ง",
+  "retryLabel": "ลองอีกครั้ง",
+  "comingSoonTitle": "กำลังซ่อมแซม",
+  "comingSoonBody": "กำลังซ่อมแซม..."
+ },
+ "news": [],
+ "version": "2026.14.15.2",
+ "resetToken": "1",
+ "notice": "",
+ "assetsManifest": {
+  "critical": [
+   {
+    "key": "BG_Beta2026",
+    "url": "https://tansumbasketballfc.github.io/update/bg/beta2026.webp",
+    "type": "image"
+   },
+   {
+    "key": "Card_Welcome2026",
+    "url": "https://tansumbasketballfc.github.io/update/card/welcome2026.webp",
+    "type": "image"
+   },
+   {
+    "key": "Leela_Leela_Welcome2026",
+    "url": "https://tansumbasketballfc.github.io/update/card/leela_leela_welcome2026.webp",
+    "type": "image"
+   },
+   {
+    "key": "Natthawat_Junthawe_Welcome2026",
+    "url": "https://tansumbasketballfc.github.io/update/card/natthawat_junthawe_welcome2026.webp",
+    "type": "image"
+   },
+   {
+    "key": "Sitthichai_Homyen_Welcome2026",
+    "url": "https://tansumbasketballfc.github.io/update/card/sitthichai_homyen_welcome2026.webp",
+    "type": "image"
+   },
+   {
+    "key": "myleague_icon",
+    "url": "https://tansumbasketballfc.github.io/update/team/myleague2026.webp",
+    "type": "image"
+   },
+   {
+    "key": "myleague_create_new_team_logo",
+    "url": "https://tansumbasketballfc.github.io/update/team/create_new_team.webp",
+    "type": "image"
+   },
+   {
+    "key": "tansum_league_icon",
+    "url": "https://tansumbasketballfc.github.io/update/bg/tansumbasketballfcleague2026.webp",
+    "type": "image"
+   },
+   {
+    "key": "tansum_league_ban_logo",
+    "url": "https://tansumbasketballfc.github.io/update/team/ban2026.webp",
+    "type": "image"
+   },
+   {
+    "key": "tansum_league_get_logo",
+    "url": "https://tansumbasketballfc.github.io/update/team/get2026.webp",
+    "type": "image"
+   },
+   {
+    "key": "tansum_league_lee_logo",
+    "url": "https://tansumbasketballfc.github.io/update/team/lee2026.webp",
+    "type": "image"
+   },
+   {
+    "key": "tansum_league_mut_logo",
+    "url": "https://tansumbasketballfc.github.io/update/team/mut2026.webp",
+    "type": "image"
+   },
+   {
+    "key": "tansum_league_wit_logo",
+    "url": "https://tansumbasketballfc.github.io/update/team/wit2026.webp",
+    "type": "image"
+   }
+  ],
+  "lazy": [
+   {
+    "key": "Thangpanitan_Samran_Standard2026",
+    "url": "https://tansumbasketballfc.github.io/update/card/thangpanitan_samran_standard2026.webp",
+    "type": "image"
+   },
+   {
+    "key": "Kawin_Jarusin_Standard 2026",
+    "url": "https://tansumbasketballfc.github.io/update/card/kawin_jarusin_standard2026.webp",
+    "type": "image"
+   },
+   {
+    "key": "Adison_Boonruang_Standard2026",
+    "url": "https://tansumbasketballfc.github.io/update/card/adison_boonruang_standard2026.webp",
+    "type": "image"
+   },
+   {
+    "key": "Natthawat_Junthawe_Standard 2026",
+    "url": "https://tansumbasketballfc.github.io/update/card/natthawat_junthawe_standard2026.webp",
+    "type": "image"
+   },
+   {
+    "key": "Thanakorn_Chayawiwatkool_Standard2026",
+    "url": "https://tansumbasketballfc.github.io/update/card/thanakorn_chayawiwatkool_standard2026.webp",
+    "type": "image"
+   },
+   {
+    "key": "Thepphutthra_Wisetpoon_Standard2026",
+    "url": "https://tansumbasketballfc.github.io/update/card/thepphutthra_wisetpoon_standard2026.webp",
+    "type": "image"
+   },
+   {
+    "key": "BG_Pet2026",
+    "url": "https://tansumbasketballfc.github.io/update/bg/pet2026.webp",
+    "type": "image"
+   },
+   {
+    "key": "BG_Pipo2026",
+    "url": "https://tansumbasketballfc.github.io/update/bg/pipo2026.webp",
+    "type": "image"
+   },
+   {
+    "key": "BG_One_Season2026",
+    "url": "https://tansumbasketballfc.github.io/update/bg/oneseason2026.webp",
+    "type": "image"
+   }
+  ]
+ },
+ "leagues": [
+  {
+   "id": "myleague",
+   "name": "My League",
+   "isCustom": true,
+   "icon": "https://tansumbasketballfc.github.io/update/team/myleague2026..webp",
+   "bg": "https://tansumbasketballfc.github.io/update/bg/beta2026.webp",
+   "themeColor": "#ff8a3d",
+   "teams": [
+    {
+     "id": "create_new_team",
+     "name": "สร้างทีมใหม่",
+     "abbr": "NEW",
+     "logo": "https://tansumbasketballfc.github.io/update/team/create_new_team.webp",
+     "themeColor": "#ff8a3d",
+     "isCreate": true
+    }
+   ]
+  },
+  {
+   "id": "tansum_league",
+   "name": "Tansum Basketball League",
+   "isCustom": false,
+   "icon": "https://tansumbasketballfc.github.io/update/bg/tansumbasketballfcleague2026.webp",
+   "bg": "https://tansumbasketballfc.github.io/update/bg/tansumbasketballfcleague2026.webp",
+   "themeColor": "#ff6a2b",
+   "teams": [
+    {
+     "id": "ban",
+     "name": "BAN",
+     "abbr": "BAN",
+     "logo": "https://tansumbasketballfc.github.io/update/team/ban2026.webp",
+     "themeColor": "#2b6cff",
+     "bgId": "bg_ban",
+     "bg": "https://tansumbasketballfc.github.io/update/bg/beta2026.webp"
+    },
+    {
+     "id": "get",
+     "name": "GET",
+     "abbr": "GET",
+     "logo": "https://tansumbasketballfc.github.io/update/team/get2026.webp",
+     "themeColor": "#2bd98a",
+     "bgId": "bg_get",
+     "bg": "https://tansumbasketballfc.github.io/update/bg/beta2026.webp"
+    },
+    {
+     "id": "lee",
+     "name": "LEE",
+     "abbr": "LEE",
+     "logo": "https://tansumbasketballfc.github.io/update/team/lee2026.webp",
+     "themeColor": "#ff3b6c",
+     "bgId": "bg_lee",
+     "bg": "https://tansumbasketballfc.github.io/update/bg/beta2026.webp"
+    },
+    {
+     "id": "mut",
+     "name": "MUT",
+     "abbr": "MUT",
+     "logo": "https://tansumbasketballfc.github.io/update/team/mut2026.webp",
+     "themeColor": "#ffb347",
+     "bgId": "bg_mut",
+     "bg": "https://tansumbasketballfc.github.io/update/bg/beta2026.webp"
+    },
+    {
+     "id": "wit",
+     "name": "WIT",
+     "abbr": "WIT",
+     "logo": "https://tansumbasketballfc.github.io/update/team/wit2026.webp",
+     "themeColor": "#7a5cff",
+     "bgId": "bg_wit",
+     "bg": "https://tansumbasketballfc.github.io/update/bg/beta2026.webp"
+    }
+   ]
+  }
+ ]
 }
