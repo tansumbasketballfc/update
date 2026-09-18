@@ -352,7 +352,7 @@
    "name": "Tansum Basketball League",
    "isCustom": false,
    "icon": "https://tansumbasketballfc.github.io/update/bg/tansumbasketballfcleague2026.webp",
-   "bg": "https://tansumbasketballfc.github.io/update/bg/tansumbasketballfcleague2026.webp",
+   "bg": "https://tansumbasketballfc.github.io/update/bg/bgtansumbasketballfcleague2026.webp",
    "themeColor": "#ff6a2b",
    "teams": [
     {
@@ -362,7 +362,7 @@
      "logo": "https://tansumbasketballfc.github.io/update/team/ban2026.webp",
      "themeColor": "#2b6cff",
      "bgId": "bg_ban",
-     "bg": "https://tansumbasketballfc.github.io/update/bg/beta2026.webp"
+     "bg": "https://tansumbasketballfc.github.io/update/bg/bgban2026.webp"
     },
     {
      "id": "get",
@@ -371,7 +371,7 @@
      "logo": "https://tansumbasketballfc.github.io/update/team/get2026.webp",
      "themeColor": "#2bd98a",
      "bgId": "bg_get",
-     "bg": "https://tansumbasketballfc.github.io/update/bg/beta2026.webp"
+     "bg": "https://tansumbasketballfc.github.io/update/bg/bgget2026.webp"
     },
     {
      "id": "lee",
@@ -380,7 +380,7 @@
      "logo": "https://tansumbasketballfc.github.io/update/team/lee2026.webp",
      "themeColor": "#ff3b6c",
      "bgId": "bg_lee",
-     "bg": "https://tansumbasketballfc.github.io/update/bg/beta2026.webp"
+     "bg": "https://tansumbasketballfc.github.io/update/bg/bglee2026.webp"
     },
     {
      "id": "mut",
@@ -389,7 +389,7 @@
      "logo": "https://tansumbasketballfc.github.io/update/team/mut2026.webp",
      "themeColor": "#ffb347",
      "bgId": "bg_mut",
-     "bg": "https://tansumbasketballfc.github.io/update/bg/beta2026.webp"
+     "bg": "https://tansumbasketballfc.github.io/update/bg/bgmut2026.webp"
     },
     {
      "id": "wit",
@@ -398,7 +398,7 @@
      "logo": "https://tansumbasketballfc.github.io/update/team/wit2026.webp",
      "themeColor": "#7a5cff",
      "bgId": "bg_wit",
-     "bg": "https://tansumbasketballfc.github.io/update/bg/beta2026.webp"
+     "bg": "https://tansumbasketballfc.github.io/update/bg/bgwit2026.webp"
     }
    ]
   }
