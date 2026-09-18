@@ -297,8 +297,8 @@ showScreen("scr-picker");
 gEl("guidechar1").src=GUIDE_ASSETS.char1;
 gEl("guidechar2").src=GUIDE_ASSETS.char2;
 runGuide([
-{char:1,text:"ยินดีต้อนรับผู้เล่นครับ"},
-{char:2,text:"ไงยินดีต้อนรับเช่นกัน เรามาเลือกการ์ด 1 ใน 3 นี้กัน"}
+{char:2,text:"ยินดีต้อนรับผู้เล่นครับ"},
+{char:1,text:"ไงยินดีต้อนรับเช่นกัน เรามาเลือกการ์ด 1 ใน 3 นี้กัน"}
 ]);
 const cards=(GAME&&GAME.starterCards)||[];
 const list=document.getElementById("pickerlist");
