@@ -224,9 +224,31 @@ afterGate();
 },1050);
 }
 
+function isOnboardingValid(){
+if(!Store.isFirstDone())return true;
+const setup=Store.getTeamSetup&&Store.getTeamSetup();
+if(!setup||!setup.team||!setup.team.name)return false;
+if(setup.team.isCustom&&!setup.team.logo)return false;
+if(!setup.playerName)return false;
+return true;
+}
+
+function playCorruptGlitch(cb){
+const flash=document.createElement("div");
+flash.className="glitchflash";
+document.getElementById("app").appendChild(flash);
+setTimeout(()=>{
+flash.remove();
+if(typeof cb==="function")cb();
+},650);
+}
+
 function afterGate(){
 if(!Store.isFirstDone()){
 prepareAndPlayPromo();
+}else if(!isOnboardingValid()){
+Store.resetOnboarding&&Store.resetOnboarding();
+playCorruptGlitch(prepareAndPlayPromo);
 }else{
 goHome();
 }
@@ -496,6 +518,62 @@ showLeague();
 }
 
 let leagueIndex=0,leagueTeamPicked=null;
+const railDrag={active:false,startY:0,startX:0,moved:false,pid:null};
+function playLeagueWipe(onMid){
+const wipe=gEl("leaguewipe");
+if(!wipe){onMid();return}
+wipe.classList.remove("play");
+void wipe.offsetWidth;
+wipe.classList.add("play");
+setTimeout(onMid,240);
+setTimeout(()=>wipe.classList.remove("play"),680);
+}
+function selectLeague(i){
+const leagues=(GAME&&GAME.leagues)||[];
+if(!leagues.length)return;
+i=((i%leagues.length)+leagues.length)%leagues.length;
+if(i===leagueIndex)return;
+leagueIndex=i;
+playSound("select");
+playLeagueWipe(()=>{
+renderLeagueRail();
+renderLeagueTeams();
+});
+}
+function wireLeagueRailSwipe(){
+const rail=gEl("leaguerail");
+if(rail.dataset.swipeWired)return;
+rail.dataset.swipeWired="1";
+rail.style.touchAction="none";
+rail.addEventListener("pointerdown",e=>{
+railDrag.active=true;
+railDrag.moved=false;
+railDrag.startY=e.clientY;
+railDrag.startX=e.clientX;
+railDrag.pid=e.pointerId;
+try{rail.setPointerCapture(e.pointerId)}catch(err){}
+});
+rail.addEventListener("pointermove",e=>{
+if(!railDrag.active)return;
+const dy=e.clientY-railDrag.startY,dx=e.clientX-railDrag.startX;
+if(Math.abs(dy)>10||Math.abs(dx)>10)railDrag.moved=true;
+});
+function endDrag(e){
+if(!railDrag.active)return;
+railDrag.active=false;
+const dy=e.clientY-railDrag.startY;
+const leagues=(GAME&&GAME.leagues)||[];
+if(Math.abs(dy)>32&&leagues.length>1){
+const dir=dy<0?1:-1;
+selectLeague(leagueIndex+dir);
+}
+}
+rail.addEventListener("pointerup",endDrag);
+rail.addEventListener("pointercancel",endDrag);
+rail.addEventListener("click",e=>{
+if(railDrag.moved){e.stopPropagation();e.preventDefault();railDrag.moved=false}
+},true);
+}
 function crossfadeLeagueBg(url){
 const cur=gEl("leaguebg"),next=gEl("leaguebgnext");
 if(!url)return;
@@ -516,24 +594,23 @@ el.className="league__railitem"+(i===leagueIndex?" active":"");
 const img=document.createElement("img");
 setImgWithFallback(img,lg.icon||lg.bg||"",el);
 el.appendChild(img);
-el.onclick=()=>{if(i!==leagueIndex){leagueIndex=i;playSound("select");renderLeagueRail();renderLeagueTeams()}};
+el.onclick=()=>selectLeague(i);
 rail.appendChild(el);
 });
 gEl("leaguerailindex").textContent=leagues.length?`${leagueIndex+1}/${leagues.length}`:"";
+gEl("leaguerail").classList.toggle("swipeable",leagues.length>1);
 }
 function renderLeagueTeams(){
 const leagues=(GAME&&GAME.leagues)||[];
 const lg=leagues[leagueIndex];
 if(!lg)return;
-const teams=lg.teams||[];
-crossfadeLeagueBg((teams[0]&&teams[0].bg)||lg.bg);
-gEl("leaguename").textContent=lg.name||"";
-gEl("leaguename").style.color=lg.themeColor||"#ffcf7a";
+crossfadeLeagueBg(lg.bg);
 const wrap=gEl("leagueteams");
 wrap.classList.remove("sweepin");
 void wrap.offsetWidth;
 wrap.classList.add("sweepin");
 wrap.innerHTML="";
+const teams=lg.teams||[];
 leagueTeamPicked=teams[0]||null;
 gEl("leagueconfirm").classList.toggle("ready",!!leagueTeamPicked);
 teams.forEach((t,i)=>{
@@ -553,7 +630,6 @@ wrap.querySelectorAll(".league__teamcard").forEach(p=>p.classList.remove("select
 el.classList.add("selected");
 leagueTeamPicked=t;
 gEl("leagueconfirm").classList.add("ready");
-crossfadeLeagueBg(t.bg||lg.bg);
 };
 wrap.appendChild(el);
 });
@@ -563,6 +639,7 @@ showScreen("scr-league");
 leagueIndex=0;
 renderLeagueRail();
 renderLeagueTeams();
+wireLeagueRailSwipe();
 gEl("leagueconfirm").onclick=()=>{
 if(!leagueTeamPicked)return;
 playSound("confirm");
@@ -579,6 +656,26 @@ showName();
 runGuide([{char:1,text:"เรามาเลือกทีมกันเถอะ คุณสามารถสร้างทีมสุดปั่นของคุณได้นะ ให้เลือกไปที่ My League และใส่รายละเอียดทีมสุดอลังการของคุณได้เลย"}]);
 }
 
+function spawnParticles(containerId,count){
+const wrap=gEl(containerId);
+if(!wrap)return;
+wrap.innerHTML="";
+for(let i=0;i<count;i++){
+const p=document.createElement("i");
+p.className="particle";
+p.style.left=Math.random()*100+"%";
+p.style.animationDuration=(6+Math.random()*7)+"s";
+p.style.animationDelay=(-Math.random()*10)+"s";
+p.style.setProperty("--drift",(Math.random()*60-30)+"px");
+p.style.width=p.style.height=(2+Math.random()*4)+"px";
+wrap.appendChild(p);
+}
+}
+function shakeEl(el){
+el.classList.remove("shake");
+void el.offsetWidth;
+el.classList.add("shake");
+}
 let teamLogoDataUrl=null;
 function showTeamCreate(){
 showScreen("scr-teamcreate");
@@ -586,9 +683,13 @@ teamLogoDataUrl=null;
 gEl("teamcreatelogoimg").removeAttribute("src");
 gEl("teamcreatelogoimg").classList.remove("show");
 gEl("teamcreatelogoplus").classList.remove("hide");
+gEl("teamcreatelogo").classList.remove("filled");
 gEl("teamcreatename").value="";
 gEl("teamcreateabbr").value="";
 gEl("teamcreateerr").textContent="";
+const teamcreatebg=gEl("teamcreatebg");
+if(teamcreatebg&&SELECTEDLEAGUE)teamcreatebg.style.backgroundImage=`url(${SELECTEDLEAGUE.bg||""})`;
+spawnParticles("teamcreateparticles",16);
 const fileInput=gEl("teamcreatefile");
 gEl("teamcreatelogo").onclick=()=>fileInput.click();
 fileInput.onchange=()=>{
@@ -607,7 +708,9 @@ teamLogoDataUrl=url;
 gEl("teamcreatelogoimg").src=url;
 gEl("teamcreatelogoimg").classList.add("show");
 gEl("teamcreatelogoplus").classList.add("hide");
+gEl("teamcreatelogo").classList.add("filled");
 gEl("teamcreateerr").textContent="";
+playSound("select");
 };
 img.onerror=()=>{gEl("teamcreateerr").textContent="ไม่สามารถอ่านไฟล์รูปนี้ได้"};
 img.src=url;
@@ -618,14 +721,22 @@ gEl("teamcreateconfirm").onclick=()=>{
 const name=gEl("teamcreatename").value.trim();
 const abbr=gEl("teamcreateabbr").value.trim();
 const letters=(name.match(/[A-Za-z]/g)||[]).length;
+if(!teamLogoDataUrl){
+gEl("teamcreateerr").textContent="กรุณาอัปโหลดโลโก้ทีมก่อน จะไปต่อไม่ได้ถ้ายังไม่มีโลโก้";
+playSound("alert");
+shakeEl(gEl("teamcreatelogo"));
+return;
+}
 if(letters<3||name.length>12){
 gEl("teamcreateerr").textContent="ชื่อทีมต้องมีตัวอักษรอังกฤษอย่างน้อย 3 ตัว และยาวไม่เกิน 12 ตัวอักษร";
 playSound("alert");
+shakeEl(gEl("teamcreatename"));
 return;
 }
 if(abbr.length!==3){
 gEl("teamcreateerr").textContent="ชื่อย่อทีมต้องเป็นตัวอักษรอังกฤษพิมพ์ใหญ่ 3 ตัว";
 playSound("alert");
+shakeEl(gEl("teamcreateabbr"));
 return;
 }
 playSound("confirm");
@@ -637,6 +748,9 @@ showName();
 
 function showName(){
 showScreen("scr-name");
+const namebg=gEl("namebg");
+if(namebg&&SELECTEDTEAM)namebg.style.backgroundImage=`url(${(SELECTEDTEAM&&SELECTEDTEAM.bg)||(SELECTEDLEAGUE&&SELECTEDLEAGUE.bg)||""})`;
+spawnParticles("namepageparticles",16);
 gEl("playername").value="";
 gEl("namepageerr").textContent="";
 gEl("playername").oninput=e=>{e.target.value=e.target.value.replace(/[^A-Za-z0-9_-]/g,"").slice(0,12)};
@@ -645,6 +759,7 @@ const name=gEl("playername").value.trim();
 if(!name||name.length>12){
 gEl("namepageerr").textContent="กรุณาตั้งชื่อ ไม่เกิน 12 ตัวอักษร";
 playSound("alert");
+shakeEl(gEl("playername"));
 return;
 }
 playSound("confirm");
